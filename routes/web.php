@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [ScanController::class, 'filter'])->name('scan.filter');
+Route::resource('scan', ScanController::class);

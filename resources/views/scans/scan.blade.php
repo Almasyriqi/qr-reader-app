@@ -117,7 +117,7 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         $('#code').val(decodedText);
-        // getScanData(decodedText);
+        getScanData(decodedText);
     }
 
     function onScanFailure(error) {
@@ -126,7 +126,7 @@
 
     html5QrcodeScanner = new Html5QrcodeScanner(
     "reader",
-    { fps: 10, qrbox: {width: 250, height: 250}, formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ], facingMode: "environment", supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA] },
+    { fps: 20, qrbox: {width: 150, height: 150}, formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ], facingMode: "environment", supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA] },
     /* verbose= */ false);
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 

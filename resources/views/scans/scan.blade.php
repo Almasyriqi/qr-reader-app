@@ -3,7 +3,7 @@
 @section('page-title')
 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 w-100   ">
     <h1 class="page-heading d-flex text-dark fw-bold flex-column justify-content-center my-0">
-        Scan QR Code APAR
+        Scan QR Code
     </h1>
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap p-0">
         <!--begin::Info-->
@@ -13,10 +13,13 @@
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('apar_scan.index') }}" class="text-muted">Data Scan APAR &nbsp;</a>
+                        <a href="{{ route('scan.filter') }}" class="text-muted">Filter Dataset &nbsp;</a>
                     </li>
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('apar_scan.create') }}" class="text-muted">Scan QR &nbsp;</a>
+                        <a href="{{ route('scan.index', ['path'=>$path]) }}" class="text-muted">Dataset &nbsp;</a>
+                    </li>
+                    <li class="breadcrumb-item text-muted">
+                        <a href="{{ route('scan.code', ['path'=>$path]) }}" class="text-muted">Scan &nbsp;</a>
                     </li>
                 </ul>
                 <!--end::Breadcrumb-->
@@ -30,118 +33,49 @@
 @endsection
 @section('content')
 <div class="card card-flush">
-    <form action="{{route('apar_scan.store')}}" method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="card-body fs-6 text-gray-700">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
+    <div class="card-body">
+        <div class="mb-5">
+            <Label class="form-label fs-6 fw-bold mt-2 mb-3">Perangkat</Label>
+            <select name="device" id="device" class="form-select" data-control="select2"
+                data-placeholder="Pilih perangkat">
+                <option value="1">Scanner</option>
+                <option value="2" selected>Smartphone</option>
+            </select>
+        </div>
 
-            <div class="mb-5">
-                <Label class="form-label required fs-6 fw-bold mt-2 mb-3">Scan QR</Label>
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div id="reader"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <input type="hidden" name="apar_id" id="apar_id">
-                <input type="hidden" name="member_id" id="member_id">
-                <div class="row">
-                    <div class="col-md-6">
-                        <Label class="form-label fs-6 fw-bold mt-2 mb-3">Tipe APAR</Label>
-                        <input type="text" name="apar_type" id="apar_type" class="form-control" disabled>
-                    </div>
-                    <div class="col-md-6">
-                        <Label class="form-label fs-6 fw-bold mt-2 mb-3">Isi APAR (kg)</Label>
-                        <input type="text" name="apar_size" id="apar_size" class="form-control" disabled>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <Label class="form-label fs-6 fw-bold mt-2 mb-3">Lokasi APAR</Label>
-                <textarea name="apar_location" id="apar_location" class="form-control" rows="5" disabled></textarea>
-            </div>
-
-            <div class="mb-5">
-                <Label class="form-label fs-6 fw-bold mt-2 mb-3">Nama Petugas</Label>
-                <input type="text" name="member_name" id="member_name" class="form-control" disabled>
-            </div>
-
-            <div class="mb-5">
-                <div class="row">
-                    <div class="col-md-3">
-                        <Label class="form-label required fs-6 fw-bold mt-2 mb-3">Kondisi Selang APAR</Label>
-                        <select name="hose" id="hose" class="form-select" data-control="select2"
-                            data-placeholder="Pilih kondisi" required>
-                            <option></option>
-                            <option value="B">B (Baik)</option>
-                            <option value="R">R (Rusak)</option>
-                            <option value="K">K (Kurang)</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <Label class="form-label required fs-6 fw-bold mt-2 mb-3">Kondisi Segel APAR</Label>
-                        <select name="seal" id="seal" class="form-select" data-control="select2"
-                            data-placeholder="Pilih kondisi" required>
-                            <option></option>
-                            <option value="B">B (Baik)</option>
-                            <option value="R">R (Rusak)</option>
-                            <option value="K">K (Kurang)</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <Label class="form-label required fs-6 fw-bold mt-2 mb-3">Kondisi Tabung APAR</Label>
-                        <select name="tube" id="tube" class="form-select" data-control="select2"
-                            data-placeholder="Pilih kondisi" required>
-                            <option></option>
-                            <option value="B">B (Baik)</option>
-                            <option value="R">R (Rusak)</option>
-                            <option value="K">K (Kurang)</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <Label class="form-label required fs-6 fw-bold mt-2 mb-3">Kondisi Speedo Meter</Label>
-                        <select name="speedo" id="speedo" class="form-select" data-control="select2"
-                            data-placeholder="Pilih kondisi" required>
-                            <option></option>
-                            <option value="B">B (Baik)</option>
-                            <option value="R">R (Rusak)</option>
-                            <option value="K">K (Kurang)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <Label class="form-label fs-6 fw-bold mt-2 mb-3">Keterangan (opsional)</Label>
-                <input type="text" name="note" id="note" class="form-control" placeholder="Masukkan keterangan">
-            </div>
-
-            <div class="footer d-flex justify-content-end py-10">
-                <div class="d-flex justify-content-end">
-                    <a href="{{route('apar_scan.index')}}" id="cancelButton"
-                        class="btn btn-light btn-active-light-primary me-3">Batalkan</a>
-                    <button id="save-apar_scan" type="submit" class="btn btn-active-primary btn-primary"
-                        data-kt-indicator="off">
-                        <span class="indicator-label">
-                            Simpan
-                        </span>
-                    </button>
+        <div class="mb-5">
+            <div class="row justify-content-center" id="camera_qr">
+                <div class="col-md-8">
+                    <Label class="form-label required fs-6 fw-bold mt-2 mb-3">Scan QR</Label>
+                    <div id="reader"></div>
                 </div>
             </div>
         </div>
-    </form>
+
+        <div class="mb-5">
+            <div id="scanner">
+                <Label class="form-label fs-6 fw-bold mt-2 mb-3">Kode</Label>
+                <input type="text" name="code" id="code" class="form-control">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="mb-5">
+            <h3>Data Scan</h3>
+            <table id="table" class="table align-middle table-row-dashed fs-6 gy-5">
+                <thead>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th>Data</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -149,33 +83,41 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script>
     let html5QrcodeScanner;
+    var datatable = $('#table').DataTable({
+        ajax:{
+            url: '{{ route("getScanData") }}?path={{$path}}',
+            dataSrc: ''
+        },
+        paging: false,
+        ordering: false,
+        dom: 'Brtip',
+            buttons: [
+                'excel', 'print'
+            ],
+        columns: [{
+                    data: 'data',
+                    name: 'data',
+                    orderable: false,
+                    searchable: false,
+                    width: '5%'
+                },
+                {
+                    data: 'value',
+                    name: 'value',
+                    orderable: false,
+                    searchable: false,
+                    width: '5%',
+                },
+            ],
+    });
     function getScanData(decodedText) {
-        $.ajax({
-            url: "{{route('apar_scan.scan')}}",
-            method: 'GET',
-            data: {
-                _token: $("meta[name='csrf-token']").attr("content"), 
-                qrCodeData: decodedText 
-            },
-            success: function (data) {
-                // Handle response dari server di sini
-                $('#apar_id').val(data.apar_id);
-                $('#member_id').val(data.member_id);
-                $('#apar_type').val(data.apar_type);
-                $('#apar_size').val(data.apar_size);
-                $('#apar_location').text(data.apar_location);
-                $('#member_name').val(data.member_name);
-            },
-            error: function (error) {
-                console.error('Error in AJAX request:', error);
-            }
-        });
+        datatable.ajax.url('{{ route("getScanData") }}?path={{$path}}&code=' + decodedText).load();
+        datatable.ajax.reload();
     }
 
     function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        // console.log(`Code matched = ${decodedText}`, decodedResult);
-        getScanData(decodedText);
+        $('#code').val(decodedText);
+        // getScanData(decodedText);
     }
 
     function onScanFailure(error) {
@@ -187,5 +129,25 @@
     { fps: 10, qrbox: {width: 250, height: 250}, formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ], facingMode: "environment", supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA] },
     /* verbose= */ false);
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    $(document).ready(function(){
+        $('#scanner').hide();
+    });
+
+    $('#device').on('change', function(){
+        if($(this).val() == '1'){
+            $('#camera_qr').hide();
+            $('#scanner').show();
+            html5QrcodeScanner.clear();
+        } else {
+            $('#camera_qr').show();
+            $('#scanner').hide();
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+    });
+
+    $('#code').on('change', function(){
+        getScanData($(this).val());
+    });
 </script>
 @endpush

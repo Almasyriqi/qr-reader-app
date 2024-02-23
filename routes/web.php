@@ -19,4 +19,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [ScanController::class, 'filter'])->name('scan.filter');
+Route::get('/code', [ScanController::class, 'code'])->name('scan.code');
+Route::get('/getScanData', [ScanController::class, 'getScanData'])->name('getScanData');
 Route::resource('scan', ScanController::class);

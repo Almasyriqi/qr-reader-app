@@ -28,6 +28,11 @@ class ScanController extends Controller
         return view('scans.filter', compact('data'));
     }
 
+    public function code(Request $request)
+    {
+        $path = $request->path;
+        return view('scans.scan', compact('path'));
+    }
     /**
      * Display a listing of the resource.
      */
@@ -96,5 +101,41 @@ class ScanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getScanData(Request $request)
+    {
+        $path = $request->path;
+        $filePath = public_path("storage/data/".$path); 
+        if($request->code == null){
+            return response()->json([]);
+        }
+
+        $data = Excel::toCollection(new DataImport, $filePath);
+        $headers = $data[0][0];
+        $data = $data[0];   
+        $response = [];
+        $found = false;
+        foreach ($data as $key_item => $value) {
+            if($key_item != 0){
+                foreach($value as $item){
+                    if($item == $request->code){
+                        $found = true;
+                    }
+                }
+                if($found == true){
+                    foreach($value as $key => $item){
+                        if($data[$key_item][$key] != null){
+                            $response[] = [
+                                'data' => $headers[$key],
+                                'value' => $data[$key_item][$key]
+                            ];
+                        }
+                    }
+                    return response()->json($response);
+                }
+            }
+        }
+        return response()->json($response);
     }
 }

@@ -32,7 +32,7 @@
             <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
                 data-kt-menu="true" data-kt-menu-expand="false">
 
-                <div class="menu-item">
+                {{-- <div class="menu-item">
                     <a class="menu-link {{ Route::is('qr.*') ? 'active' : '' }}" href="
                                     {{ route('scan.index') }}
                                     ">
@@ -49,7 +49,7 @@
                         </span>
                         <span class="menu-title">Scan APAR</span>
                     </a>
-                </div>
+                </div> --}}
 
                 <div class="menu-item">
                     <a class="menu-link {{ Route::is('scan.*') ? 'active' : '' }}" href="

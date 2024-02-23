@@ -92,7 +92,7 @@
         ordering: false,
         dom: 'Brtip',
             buttons: [
-                'excel', 'print'
+                'excel', 'print', 'pdf', 'copy'
             ],
         columns: [{
                     data: 'data',

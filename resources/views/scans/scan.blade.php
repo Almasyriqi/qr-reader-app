@@ -67,7 +67,7 @@
                 <thead>
                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                         <th>Data</th>
-                        <th>Keterangan</th>
+                        <th>Nilai</th>
                     </tr>
                 </thead>
                 <tbody>

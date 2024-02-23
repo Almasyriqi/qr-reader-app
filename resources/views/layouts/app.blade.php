@@ -78,8 +78,7 @@
                                 <div class="text-dark order-2 order-md-1">
                                     <span class="text-muted fw-semibold me-1">{{ now()->year }}©</span>
                                     <a href="{{ config('app.url', '#') }}" target="_blank"
-                                        class="text-gray-800 text-hover-primary">{{ config('app.name', 'Sistem Monitoring Mesin PSP')
-                                        }}</a>
+                                        class="text-gray-800 text-hover-primary">Peruri Security Printing</a>
                                 </div>
                             </div>
                         </div>

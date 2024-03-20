@@ -29,6 +29,7 @@
             type="text/css" />
         <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @yield('styles')
     </head>
 

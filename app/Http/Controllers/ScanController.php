@@ -31,7 +31,8 @@ class ScanController extends Controller
     public function code(Request $request)
     {
         $path = $request->path;
-        return view('scans.scan', compact('path'));
+        // return view('scans.scan', compact('path'));
+        return view('scans.scan_v2', compact('path'));
     }
     /**
      * Display a listing of the resource.

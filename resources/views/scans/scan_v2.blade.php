@@ -50,8 +50,8 @@
             <Label class="form-label fs-6 fw-bold mt-2 mb-3">Perangkat</Label>
             <select name="device" id="device" class="form-select" data-control="select2"
                 data-placeholder="Pilih perangkat">
-                <option value="1">Scanner</option>
-                <option value="2" selected>Smartphone / Camera</option>
+                <option value="1" selected>Scanner</option>
+                <option value="2">Smartphone / Camera</option>
             </select>
         </div>
 
@@ -193,10 +193,6 @@
         qrScanner.setCamera(event.target.value);
     });
 
-    $(document).ready(function(){
-        $('#scanner').hide();
-    });
-
     $('#device').on('change', function(){
         if($(this).val() == '1'){
             $('#camera_qr').hide();
@@ -212,5 +208,10 @@
     $('#code').on('change', function(){
         getScanData($(this).val());
     });
+
+    window.onload = function() {
+        $('#camera_qr').hide();
+        qrScanner.stop();
+    };
 </script>
 @endpush
